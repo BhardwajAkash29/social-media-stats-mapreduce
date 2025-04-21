@@ -14,7 +14,9 @@ The analysis pipeline consists of five sequential phases:
 
 ## Framework Diagram
 
-![Analytics Pipeline Architecture](system_design.png)
+![image](https://github.com/user-attachments/assets/ad43e8c4-ea8e-4973-811b-9d5f5c8d0274)
+
+
 
 Processing sequence:
 - Raw data enters the MapReduce processing environment
