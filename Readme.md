@@ -1,232 +1,231 @@
-# Social Media Analytics MapReduce Workflow
+# MapReduce Pipeline for Social Media Data Analysis
 
-This repository contains a comprehensive MapReduce workflow for analyzing social media data. The solution processes two datasets: `social_media_logs.txt` and `user_profiles.txt` to extract user activity patterns, identify trending content, and produce comprehensive analytics by joining the datasets.
+This project implements a multi-stage MapReduce workflow designed to process and analyze social media datasets. By examining `social_media_logs.txt` and `user_profiles.txt`, this system extracts behavior patterns, highlights popular content, and generates insights by connecting user activities with profile information.
 
-## System Overview
+## Core Framework
 
-The system consists of five main components:
+The analysis pipeline consists of five sequential phases:
 
-1. **Data Cleansing and Parsing** - Extracts and validates fields from the raw data
-2. **Action Aggregation and Sorting** - Aggregates user actions and sorts by post count
-3. **Trending Content Identification** - Identifies popular content based on engagement
-4. **Dataset Joining** - Combines user activity with profile information
-5. **Data Visualization** - Provides insights through static and interactive visualizations
+1. **Data Preprocessing & Validation** - Cleans and structures the raw input data
+2. **User Activity Compilation** - Collects and ranks user interactions by frequency
+3. **Popular Content Detection** - Identifies high-engagement content 
+4. **Data Integration** - Merges activity metrics with demographic information
+5. **Results Presentation** - Converts findings into visual representations
 
-## System Architecture
+## Framework Diagram
 
-![Social Media Analytics Architecture](system_design.png)
+![Analytics Pipeline Architecture](system_design.png)
 
-The workflow follows a pipeline architecture:
-- Input data is processed by the MapReduce simulator
-- Each MapReduce job produces output that feeds into subsequent jobs
-- Final outputs are used for visualization and analysis
+Processing sequence:
+- Raw data enters the MapReduce processing environment
+- Each processing phase generates outputs that serve as inputs for subsequent stages
+- Final data products support visualization and analytical review
 
-## Prerequisites
+## System Requirements
 
-For Windows/PyCharm setup:
-- Windows operating system
-- Python 3.6+
-- PyCharm IDE (Community or Professional)
-- Required Python libraries: numpy, psutil, matplotlib, pandas, dash, plotly, scipy
+Windows environment setup:
+- Windows OS
+- Python 3.6 or newer
+- PyCharm development environment
+- Dependencies: numpy, psutil, matplotlib, pandas, dash, plotly, scipy
 
-## Project Structure
+## Directory Organization
 
 ```
-social_media_analytics/
-├── config.json                   # Configuration file
-├── README.md                     # This file
+project_root/
+├── config.json                   # Settings and parameters
+├── README.md                     # Project documentation
 │
-├── data/                         # Input data directory
-│   ├── social_media_logs.txt     # Social media logs dataset
-│   └── user_profiles.txt         # User profiles dataset
+├── data/                         # Input datasets
+│   ├── social_media_logs.txt     # Activity record dataset
+│   └── user_profiles.txt         # User information dataset
 │
-├── output/                       # Output directory (created automatically)
-│   ├── cleansed_data.txt         # Output from data cleansing job
-│   ├── user_activity.txt         # Output from action aggregation job
-│   ├── trending_content.txt      # Output from trending content job
-│   ├── skew_analysis.json        # Output from skew detection
-│   ├── joined_data.txt           # Output from join job
-│   └── workflow_summary.txt      # Summary of workflow execution
+├── output/                       # Results storage (auto-created)
+│   ├── cleansed_data.txt         # Validated data output
+│   ├── user_activity.txt         # Compiled user actions
+│   ├── trending_content.txt      # High-engagement content
+│   ├── skew_analysis.json        # Distribution analysis results
+│   ├── joined_data.txt           # Integrated dataset
+│   └── workflow_summary.txt      # Execution report
 │
-├── src/                          # Source code directory
-│   ├── cleansing_mapper.py       # Data cleansing mapper
-│   ├── cleansing_reducer.py      # Data cleansing reducer
-│   ├── action_aggregation_mapper.py    # Action aggregation mapper
-│   ├── action_aggregation_reducer.py   # Action aggregation reducer
-│   ├── trending_content_mapper.py      # Trending content mapper
-│   ├── trending_content_combiner.py    # Trending content combiner
-│   ├── trending_content_reducer.py     # Trending content reducer
-│   ├── social_media_analytics_driver.py    # Workflow orchestration script
-│   ├── join_activity_mapper.py    # Join activity data mapper
-│   ├── join_profile_mapper.py     # Join profile data mapper
-│   ├── join_reducer.py            # Join reducer
-|   ├── visualize_analytics.py     # Static visualization generator
-│   ├── analytics_dashboard.py     # Interactive dashboard application
-│   ├── skew_detection.py          # Utility for detecting data skew
-│   └── memory_monitor.py          # Utility for monitoring memory usage
+├── src/                          # Code components
+│   ├── cleansing_mapper.py       # Validation mapper
+│   ├── cleansing_reducer.py      # Validation reducer
+│   ├── action_aggregation_mapper.py    # Activity collection mapper
+│   ├── action_aggregation_reducer.py   # Activity collection reducer
+│   ├── trending_content_mapper.py      # Engagement mapper
+│   ├── trending_content_combiner.py    # Intermediate processor
+│   ├── trending_content_reducer.py     # Engagement analyzer
+│   ├── social_media_analytics_driver.py    # Workflow controller
+│   ├── join_activity_mapper.py    # Activity integration mapper
+│   ├── join_profile_mapper.py     # Profile integration mapper
+│   ├── join_reducer.py            # Integration processor
+|   ├── visualize_analytics.py     # Static visualization tool
+│   ├── analytics_dashboard.py     # Interactive results viewer
+│   ├── skew_detection.py          # Distribution analysis utility
+│   └── memory_monitor.py          # Resource tracking utility
 │
-└── visualizations/               # Visualization tools
-    
+└── visualizations/               # Graphics output directory
 ```
 
-## Quick Start
+## Starting Guide
 
-1. **Clone or download this repository**
+1. **Get the project files**
 
-2. **Install dependencies**
+2. **Set up the environment**
    ```
    pip install numpy psutil matplotlib pandas dash plotly scipy
    ```
-3. **Unzip the following files as git does not allow files more than 100MB to be uploaded**
+3. **Extract large datasets**
     ```
     social_media_logs.zip
     cleansed_data.zip
     ```
-3. **Run the complete workflow**
+3. **Execute the full pipeline**
    ```
    python social_media_analytics_driver.py --config config.json
    ```
 
-4. **Generate visualizations**
+4. **Create data visualizations**
    ```
    python visualize_analytics.py --input-dir output --output-dir visualizations
    ```
 
-5. **Launch the interactive dashboard**
+5. **Start the analysis dashboard**
    ```
    python analytics_dashboard.py
    ```
 
-## Components in Detail
+## Component Details
 
-### 1. Data Cleansing and Parsing
+### 1. Data Preprocessing & Validation
 
-This component processes the raw `social_media_logs.txt` file:
-- Parses tab-separated records extracting Timestamp, UserID, ActionType, ContentID, and Metadata
-- Validates timestamps and JSON metadata
-- Filters out malformed records
-- Tracks discarded records using counters
-
-Implementation:
-- `cleansing_mapper.py` - Handles validation and filtering
-- `cleansing_reducer.py` - Passes through valid records
-
-### 2. Action Aggregation and Sorting
-
-This component aggregates user actions by type:
-- Counts posts, likes, comments, and shares for each user
-- Sorts output by post count in descending order
-- Uses composite keys for secondary sorting
+This phase processes the raw activity logs:
+- Extracts Timestamp, UserID, ActionType, ContentID, and Metadata from tab-delimited records
+- Verifies timestamp formats and JSON structure
+- Removes invalid entries
+- Maintains records of excluded data
 
 Implementation:
-- `action_aggregation_mapper.py` - Aggregates action counts per user
-- `action_aggregation_reducer.py` - Formats output with proper sorting
+- `cleansing_mapper.py` - Handles entry validation
+- `cleansing_reducer.py` - Forwards validated records
 
-### 3. Trending Content Identification
+### 2. User Activity Compilation
 
-This component identifies popular content:
-- Calculates engagement (likes + shares) for each content item
-- Determines trending threshold based on the 90th percentile
-- Handles potential data skew in popular content
-
-Implementation:
-- `trending_content_mapper.py` - Counts likes and shares per content
-- `trending_content_combiner.py` - Performs local aggregation
-- `trending_content_reducer.py` - Identifies trending content based on threshold
-
-### 4. Dataset Joining
-
-This component combines user activity with profile information:
-- Joins user activity data with user profiles
-- Implements a reduce-side join strategy
-- Handles data skew for power users
+This phase aggregates interaction metrics:
+- Tallies posts, likes, comments, and shares per user
+- Orders results by post frequency (descending)
+- Implements multi-level sorting
 
 Implementation:
-- `join_activity_mapper.py` - Prepares activity data for joining
-- `join_profile_mapper.py` - Prepares profile data for joining
-- `join_reducer.py` - Performs the join operation
-- `skew_detection.py` - Identifies and handles skewed keys
+- `action_aggregation_mapper.py` - Counts activities by user
+- `action_aggregation_reducer.py` - Structures and sorts output
 
-### 5. Data Visualization
+### 3. Popular Content Detection
 
-This component provides analytics insights:
-- Generates static visualizations of key metrics
-- Provides an interactive dashboard for data exploration
+This phase identifies high-engagement content:
+- Calculates total engagement (likes + shares) for content items
+- Sets popularity threshold at the 90th percentile
+- Addresses data concentration issues
 
 Implementation:
-- `visualize_analytics.py` - Creates static PNG visualizations
-- `analytics_dashboard.py` - Provides web-based interactive dashboard
+- `trending_content_mapper.py` - Tracks engagement metrics
+- `trending_content_combiner.py` - Performs local data reduction
+- `trending_content_reducer.py` - Applies threshold analysis
 
-## Performance Optimizations
+### 4. Data Integration
 
-Several optimization techniques are implemented in the workflow:
+This phase connects activity data with user profiles:
+- Merges interaction data with demographic information
+- Uses reducer-side joining technique
+- Handles distribution imbalances for highly active users
 
-### Code-Level Optimizations
-1. **In-mapper combining** - Reduces intermediate data volume by aggregating in memory
-2. **Efficient data structures** - Uses appropriate data structures for each task
-3. **Secondary sort** - Ensures output is properly sorted without additional passes
-4. **Combiners** - Implements combiners for local aggregation before shuffle
+Implementation:
+- `join_activity_mapper.py` - Prepares activity records
+- `join_profile_mapper.py` - Prepares profile records
+- `join_reducer.py` - Performs integration
+- `skew_detection.py` - Manages data distribution issues
 
-### System-Level Optimizations
-1. **Skew detection** - Identifies and handles skewed keys to balance workload
-2. **Memory monitoring** - Tracks resource usage during execution
-3. **Dynamic reducers** - Configures the number of reducers based on data volume
+### 5. Results Presentation
 
-## Running Individual Components
+This phase visualizes the analytical findings:
+- Produces static visual representations
+- Offers interactive data exploration
 
-You can run individual MapReduce jobs for testing or debugging:
+Implementation:
+- `visualize_analytics.py` - Generates image-based visualizations
+- `analytics_dashboard.py` - Provides browser-based exploration
+
+## Performance Enhancements
+
+Several techniques improve processing efficiency:
+
+### Code Optimizations
+1. **Mapper-side aggregation** - Reduces intermediate data through in-memory processing
+2. **Strategic data structures** - Selects optimal structures for each operation
+3. **Built-in sorting** - Arranges output without additional processing
+4. **Intermediate reduction** - Applies combiners for early data consolidation
+
+### System Optimizations
+1. **Distribution analysis** - Identifies and addresses processing imbalances
+2. **Resource monitoring** - Tracks system utilization
+3. **Adaptive processing** - Adjusts reducer count based on data volume
+
+## Running Specific Components
+
+For testing individual pipeline stages:
 
 ```
-# Data cleansing only
+# Data validation only
 python local_mapreduce.py --job cleansing --input-dir data --output-dir output
 
-# Action aggregation only
+# Activity compilation only
 python local_mapreduce.py --job aggregation --input-dir output --output-dir output
 
-# Trending content only
+# Popularity analysis only
 python local_mapreduce.py --job trending --input-dir output --output-dir output
 
-# Join operation only
+# Integration only
 python local_mapreduce.py --job join --input-dir output --output-dir output
 ```
 
-## Visualization Tools
+## Visualization Options
 
-### Static Visualizations
+### Static Graphics
 
-The `visualize_analytics.py` script generates several visualization files:
+The `visualize_analytics.py` script creates several visual outputs:
 
-- `activity_distribution.png` - Pie chart showing the distribution of different activity types
-- `top_users.png` - Bar chart showing the most active users
-- `trending_content.png` - Bar chart of the top trending content items
-- `activity_correlation.png` - Heatmap showing correlations between different activity types
-- `engagement_distribution.png` - Histogram of content engagement scores
+- `activity_distribution.png` - Activity type breakdown
+- `top_users.png` - Most active user comparison
+- `trending_content.png` - Top content by engagement
+- `activity_correlation.png` - Relationship map of activity types
+- `engagement_distribution.png` - Engagement score distribution
 
-Run with:
+Generate with:
 ```
 python visualize_analytics.py --input-dir output --output-dir visualizations
 ```
 
-### Interactive Dashboard
+### Interactive Analysis Tool
 
-The `analytics_dashboard.py` provides a web interface with:
+The `analytics_dashboard.py` provides a web-based interface featuring:
 
-- User Activity Overview
-- Trending Content Analysis
-- Activity Correlation Analysis
-- Interactive controls for data exploration
+- User Activity Summary
+- Engagement Analysis
+- Behavior Correlation View
+- Dynamic filtering controls
 
-Run with:
+Launch with:
 ```
 python analytics_dashboard.py
 ```
-Then open your web browser to http://127.0.0.1:8050/
+Then visit http://127.0.0.1:8050/ in your browser
 
-## Troubleshooting
+## Problem Resolution
 
 If you encounter issues:
 
-1. **Check file paths** - Ensure all paths in config.json are correct
-2. **Verify input data format** - Make sure your data files match the expected format
-3. **Check Python environment** - Ensure all required packages are installed
-4. **Review logs** - Check workflow.log for detailed error messages
+1. **Verify path settings** - Confirm paths in config.json are accurate
+2. **Check data formatting** - Ensure input files match expected structure
+3. **Verify dependencies** - Confirm all required packages are installed
+4. **Examine log files** - Review workflow.log for specific error details
